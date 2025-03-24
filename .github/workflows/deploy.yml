@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write # Grants write access to repository contents
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,17 +22,14 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        # Only runs if package.json exists
 
       - name: Run tests
         run: npm test || echo "No tests defined, skipping..."
-        # Prevents failure if no test script exists
 
       - name: Create public directory (fallback)
         run: |
           mkdir -p public
           echo "<h1>Codtech Task 2: Fallback Page</h1>" > public/index.html
-        # Ensures public/ exists even if not in repo
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
